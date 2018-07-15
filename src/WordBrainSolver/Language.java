@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 
 public class Language {
 
-	public static String WordListLocation =  "C:\\Projects\\WordLists\\"; 
+	public static String WordListLocation =  "/users/rob_herrick/development/wordBrainSolver/wordlists/";
 	
     private List<String> presolved_words;
     private Map<Integer, List<String>> words;

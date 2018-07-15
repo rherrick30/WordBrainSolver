@@ -16,9 +16,9 @@ public class Tester {
 
         try
         {
-	        List<String> potentials = slv.GetPermutations(new int[] {5,4,5,4,5,6,6,5},
-	        		new WordCube("ldbrccatmpeponsglpuerslacelssarausteaeishgftaemho"),  "", 0,
-	        		"glass,mast,apple,left,bread,saucer,muscle");
+	        List<String> potentials = slv.GetPermutations(new int[] {8,4,5,4,6,8,8,6},
+	        		new WordCube("ernagsuldadeeadurinchploteitooablsudcpoeespamunpr"),  "", 0,
+	        		"suitcase,heel,purse,loop,paddle,cupboard,mountain");
 	        l.log("---------------------------------");
 	        for( String s : potentials)
 	        {
