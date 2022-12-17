@@ -1,6 +1,7 @@
 package WordBrainSolver;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Solver {
 
@@ -19,7 +20,7 @@ public class Solver {
         this.l = lgr;
     }
 
-    public ArrayList<String> GetPermutations(int[] len, WordCube board, String answersofar, int dimptr, String PresolvedWords )
+    private ArrayList<String> _GetPermutationsInternal(int[] len, WordCube board, String answersofar, int dimptr, String PresolvedWords,  char hint)
     {
     	//System.out.println(board.printBoard());
     	
@@ -35,7 +36,9 @@ public class Solver {
         int thislen = len[dimptr];
         for( Cell c : board.theBoard)
         {
-            board.allPerms(new ArrayList<Cell>(Arrays.asList(c)), thislen, allCombos);
+            if(hint == ' ' || c.val == hint){
+                board.allPerms(new ArrayList<Cell>(Arrays.asList(c)), thislen, allCombos);
+            }
         }
         
         for(Map.Entry<Integer, ArrayList<Cell>> lc : allCombos.entrySet())
@@ -55,12 +58,18 @@ public class Solver {
                     WordCube w = board.takeOut(lc.getValue());
                     //System.out.println(w.printBoard());
                     w.Dict = English;
-                    GetPermutations(len, w, answersofar + ',' + s, dimptr + 1, "");
+                    _GetPermutationsInternal(len, w, answersofar + ',' + s, dimptr + 1, "", ' ');
                 }
             }
         }
         return potentialSolutions;
     }
 
+    public ArrayList<String> GetPermutations(int [] lenOfUnfound, String board, String[] answersSoFar, char hint) throws Exception {
+        List<Integer> answerLens = Arrays.stream(answersSoFar).sequential().map(String::length).collect(Collectors.toList());
+        Arrays.stream(lenOfUnfound).sequential().forEach(a-> answerLens.add(a));
+        String answersInCommaString = Arrays.stream(answersSoFar).sequential().collect(Collectors.joining(","));
+        return _GetPermutationsInternal(answerLens.stream().mapToInt(Integer::intValue).toArray(), new WordCube(board), "", 0, answersInCommaString, hint);
+    }
 
 }

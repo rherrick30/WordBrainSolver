@@ -16,9 +16,17 @@ public class Tester {
 
         try
         {
-	        List<String> potentials = slv.GetPermutations(new int[] {8,4,5,4,6,8,8,6},
-	        		new WordCube("ernagsuldadeeadurinchploteitooablsudcpoeespamunpr"),  "", 0,
-	        		"suitcase,heel,purse,loop,paddle,cupboard,mountain");
+	        List<String> potentials = slv.GetPermutations(
+					new int[] {6},
+	        		"toeancp" +
+							"anirapa" +
+							"eetdard" +
+							"gxieecv" +
+							"rfcsioi" +
+							"aftpers" +
+							"lrplmoe",
+	        		new String[] {},
+					' ');
 	        l.log("---------------------------------");
 	        for( String s : potentials)
 	        {
