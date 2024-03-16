@@ -20,14 +20,14 @@ public class Solver {
         this.l = lgr;
     }
 
-    private ArrayList<String> _GetPermutationsInternal(int[] len, WordCube board, String answersofar, int dimptr, String PresolvedWords,  char hint)
+    private ArrayList<String> _GetPermutationsInternal(int[] len, WordCube board, String answersofar, int dimptr, String PresolvedWords)
     {
     	//System.out.println(board.printBoard());
     	
         if (dimptr == 0)
             potentialSolutions = new ArrayList<String>();
 
-        if(!English.hasWords())
+        if(!English.hasWords(len))
             English = new Language(len, PresolvedWords);
 
         board.Dict = English;
@@ -36,9 +36,7 @@ public class Solver {
         int thislen = len[dimptr];
         for( Cell c : board.theBoard)
         {
-            if(hint == ' ' || c.val == hint){
-                board.allPerms(new ArrayList<Cell>(Arrays.asList(c)), thislen, allCombos);
-            }
+            board.allPerms(new ArrayList<Cell>(Arrays.asList(c)), thislen, allCombos);
         }
         
         for(Map.Entry<Integer, ArrayList<Cell>> lc : allCombos.entrySet())
@@ -58,18 +56,28 @@ public class Solver {
                     WordCube w = board.takeOut(lc.getValue());
                     //System.out.println(w.printBoard());
                     w.Dict = English;
-                    _GetPermutationsInternal(len, w, answersofar + ',' + s, dimptr + 1, "", ' ');
+                    _GetPermutationsInternal(len, w, answersofar + ',' + s, dimptr + 1, "");
                 }
             }
         }
         return potentialSolutions;
     }
 
-    public ArrayList<String> GetPermutations(int [] lenOfUnfound, String board, String[] answersSoFar, char hint) throws Exception {
+    public List<String> GetPermutations(int [] lenOfUnfound, String board, String[] answersSoFar, String hint) throws Exception {
         List<Integer> answerLens = Arrays.stream(answersSoFar).sequential().map(String::length).collect(Collectors.toList());
         Arrays.stream(lenOfUnfound).sequential().forEach(a-> answerLens.add(a));
         String answersInCommaString = Arrays.stream(answersSoFar).sequential().collect(Collectors.joining(","));
-        return _GetPermutationsInternal(answerLens.stream().mapToInt(Integer::intValue).toArray(), new WordCube(board), "", 0, answersInCommaString, hint);
+        ArrayList<String> rawResults = _GetPermutationsInternal(answerLens.stream().mapToInt(Integer::intValue).toArray(), new WordCube(board), "", 0, answersInCommaString);
+        if(hint.trim().length()==0){
+            return rawResults.stream().map(r-> r.substring(1)).collect(Collectors.toList());
+        }
+        return rawResults.stream()
+                .map(r-> r.substring(1))
+                .filter(r->{
+                    String[] answers = r.split(",");
+                    return answers[answers.length-1].startsWith(hint);
+                })
+                .collect(Collectors.toList());
     }
 
 }

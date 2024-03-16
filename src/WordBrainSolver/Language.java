@@ -161,8 +161,12 @@ public class Language {
         return false;
     }
     
-    public boolean hasWords()
+    public boolean hasWords(int[] len)
     {
-        return (this.words.size() > 0);
+        boolean returnVal=true;
+        for(int i=0; i<len.length;i++){
+            returnVal = returnVal && words.containsKey(len[i]);
+        }
+        return returnVal;
     }
 }

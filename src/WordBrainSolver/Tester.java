@@ -17,24 +17,34 @@ public class Tester {
         try
         {
 	        List<String> potentials = slv.GetPermutations(
-					new int[] {6},
-	        		"toeancp" +
-							"anirapa" +
-							"eetdard" +
-							"gxieecv" +
-							"rfcsioi" +
-							"aftpers" +
-							"lrplmoe",
+					new int[] {11},
+	        		"  e    nt    oao   isipa lhrpp levro",
 	        		new String[] {},
-					' ');
+					" ");
 	        l.log("---------------------------------");
 	        for( String s : potentials)
 	        {
 	            l.log(s);
 	        }
+
+
+			potentials = slv.GetPermutations(
+					new int[] {6},
+					"  e    nt    oao   isipa lhrpp levro",
+					new String[] {"appropriate"},
+					" ");
+			l.log("---------------------------------");
+			for( String s : potentials)
+			{
+				l.log(s);
+			}
+
+
+
         }catch(Exception e)
         {
-        	l.log("error in analysis " + e.getMessage());
+        	l.log(String.format("error in analysis: %s",e.getMessage()));
+			e.printStackTrace();
         }
 
         
